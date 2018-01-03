@@ -12,7 +12,7 @@ from matplotlib import style
 style.use('fivethirtyeight')
 
 fig = plt.figure()
-ax1 = fig.add_subplot(1,2,1)
+ax1 = fig.add_subplot(211)
 
 "Live plotting the Temp in the subplot"
 def animate(i) :
@@ -32,7 +32,7 @@ ani = animation.FuncAnimation(fig, animate, interval=2000)
 plt.show()
 
 "Live plotting something else"
-ax2 = fig.add_subplot(1,2,2)
+ax2 = fig.add_subplot(223)
 def animate2(i) :
     graph_data = open('HSvolt.txt','r').read()
     lines = graph_data.split('\n')
@@ -47,4 +47,22 @@ def animate2(i) :
     ax2.plot(xs,ys)
 
 ani2 = animation.FuncAnimation(fig, animate2, interval=1000)
+plt.show()
+
+"Live plotting something else again"
+ax3 = fig.add_subplot(224)
+def animate3(i) :
+    graph_data = open('HSrandom.txt','r').read()
+    lines = graph_data.split('\n')
+    xs = []
+    ys = []
+    for line in lines:
+        if len(line)>1:
+            x, y = line.split(',')
+            xs.append(x)
+            ys.append(y)
+    ax3.clear()
+    ax3.plot(xs,ys)
+
+ani3 = animation.FuncAnimation(fig, animate3, interval=1200)
 plt.show()
