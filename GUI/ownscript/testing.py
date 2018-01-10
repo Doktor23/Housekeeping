@@ -16,8 +16,12 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 
+"Live plotter stuff"
+import matplotlib.animation as animation
+from matplotlib import style
 
-
+style.use('fivethirtyeight')
+"end live plotter stuff"
 
 class PrettyWidget(QtGui.QWidget):
     
@@ -28,7 +32,8 @@ class PrettyWidget(QtGui.QWidget):
         
         
     def initUI(self):
-        self.setGeometry(600,300, 1500, 600)
+        #self.setGeometry(0,0, 1500, 600)
+        self.showMaximized()        
         self.center()
         self.setWindowTitle('HK data')     
        
@@ -71,11 +76,37 @@ class PrettyWidget(QtGui.QWidget):
         self.figure4 = plt.figure(figsize=(1,2))
         self.canvas4 = FigureCanvas(self.figure4)
         grid.addWidget(self.canvas4, 2,3)
+        
+#        self.figure = plt.figure(figsize=(30,10))    
+#        self.canvas = FigureCanvas(self.figure)     
+#        self.toolbar = NavigationToolbar(self.canvas, self)
+#        grid.addWidget(self.canvas, 1,0,1,4)
+#        grid.addWidget(self.toolbar, 0,0,1,4)
+#        self.show()
+        
         hk4=self.figure4.add_subplot(111)
         x4 = [i for i in range(100)]
         y4 = [i**10 for i in x4]
         hk4.plot(x4,y4)
         self.canvas4.draw()
+        
+        
+        hk3=self.figure3.add_subplot(111)
+        def animate2(i) :
+            graph_data = open('HSvolt.txt','r').read()
+            lines = graph_data.split('\n')
+            x3 = []
+            y3 = []
+            for line in lines:
+                if len(line)>1:
+                    x, y = line.split(',')
+                    x3.append(x)
+                    y3.append(y)
+            hk3.clear()
+            hk3.plot(x3,y3)
+    
+        ani2 = animation.FuncAnimation(self.figure3, animate2, interval=1000)        
+        self.canvas3.draw()
         
         
         #a2 = QtGui.QPushButton('fig2', self)
@@ -91,7 +122,7 @@ class PrettyWidget(QtGui.QWidget):
         grid.addWidget(self.toolbar, 0,0,1,4)
         self.show()
     
-    "Will try to plot HK data over each button"
+   
         
     
     
