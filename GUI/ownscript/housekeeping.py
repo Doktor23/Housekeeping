@@ -24,6 +24,8 @@ import sys
 import datetime
 
 from PyQt4 import QtGui
+
+
 import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
@@ -92,8 +94,11 @@ def animate3(i):
             ys3.append(y)
     ax3.clear()
     ax3.plot(xs3,ys3)
+    
 
 f4 = plt.figure(figsize=(1,2))
+f4.patch.set_alpha(0.25)
+f4.set_facecolor('g')
 ax4 = f4.add_subplot(111)
 
 def animate4(i):
@@ -110,8 +115,13 @@ def animate4(i):
             ys4.append(y)
     ax4.clear()
     ax4.plot(xs4[-20:],ys4[-20:])
-
-class PrettyWidget(QtGui.QWidget):
+    global Last_value4
+    Last_value4=float(ys4[-1])
+    if float(Last_value4) > 14.00:
+        f4.set_facecolor('r')
+    
+    
+class PrettyWidget(QtGui.QTabWidget):
     
     
     def __init__(self):
@@ -125,8 +135,15 @@ class PrettyWidget(QtGui.QWidget):
         self.center()
         self.setWindowTitle('HK data')     
        
+
+       
+#Test - adding tabs
+        tab1 = QtGui.QWidget()
+        
+        self.addTab(tab1,'hk')
         grid = QtGui.QGridLayout()
-        self.setLayout(grid)
+        tab1.setLayout(grid)
+#End tab test 1 All below inserted into tab?
        
         btn1 = QtGui.QPushButton('Plot 1', self)
         btn1.resize(btn1.sizeHint()) 
@@ -174,24 +191,16 @@ class PrettyWidget(QtGui.QWidget):
         self.canvas = FigureCanvas(self.figure)     
         self.toolbar = NavigationToolbar(self.canvas, self)
         grid.addWidget(self.canvas, 1,0,1,4)
-        grid.addWidget(self.toolbar, 0,0,1,4)
+#        grid.addWidget(self.toolbar, 0,0,1,4)
         self.show()
+           
+#Tab 2
+        tab2 = QtGui.QWidget()
+        self.addTab(tab2,'ErrorHandling')
+        grid = QtGui.QGridLayout()
+        tab2.setLayout(grid)
         
         
-        
-        
-        
-        hk4=self.figure4.add_subplot(111)
-        x4 = [i for i in range(100)]
-        y4 = [i**10 for i in x4]
-        hk4.plot(x4,y4)
-        self.canvas4.draw()
-        hk4.set_xlabel('hej')
-        hk4.set_ylabel('Noget')
-             
-        
-    
-    
     
     def plot1(self):
         plt.cla()
@@ -254,8 +263,6 @@ def main():
     ani2 = animation.FuncAnimation(f2, animate2, interval=5000)
     ani3 = animation.FuncAnimation(f3, animate3, interval=5000)
     ani4 = animation.FuncAnimation(f4, animate4, interval=1200)
-
-    print('hej')
     app.exec_()
 
 
