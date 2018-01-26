@@ -39,7 +39,8 @@ import matplotlib.animation as animation
 #style.use('fivethirtyeight')
 "end live plotter stuff"
 
-
+global errorinterval
+errorinterval = 4
         
 f1 = plt.figure(figsize=(1,2))
 ax1 = f1.add_subplot(111)
@@ -117,8 +118,17 @@ def animate4(i):
     ax4.plot(xs4[-20:],ys4[-20:])
     global Last_value4
     Last_value4=float(ys4[-1])
-    if float(Last_value4) > 14.00:
+    if float(Last_value4) > 16.00:
         f4.set_facecolor('r')
+        Errordata = open('Error-Testfile.txt','a')
+        Errordata.write("%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y")))
+        Errordata.close()
+        for j in range(errorinterval):
+            Errordata = open('Error-Testfile.txt','a')
+            xerror4=float(xs4[-errorinterval+(j)])
+            yerror4=float(ys4[-errorinterval+(j)])
+            Errordata.write("%5.2f,%5.2f\n" % (xerror4,yerror4))
+            Errordata.close()
     
     
 class PrettyWidget(QtGui.QTabWidget):
@@ -239,7 +249,7 @@ class PrettyWidget(QtGui.QTabWidget):
     def plot4(self):
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs4[-50:],ys4[-50:])
+        mainwindow.plot(xs4[-200:],ys4[-200:])
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('More?... plottet:     '+timeofday,fontweight="bold", size=20) # Title
