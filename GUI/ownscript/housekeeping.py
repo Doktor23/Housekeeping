@@ -20,9 +20,9 @@ Created on Wed Jan  3 15:01:32 2018
 """
 
 import sys
-
+import subprocess
 import datetime
-
+import os
 from PyQt4 import QtGui
 
 
@@ -39,10 +39,22 @@ import matplotlib.animation as animation
 #style.use('fivethirtyeight')
 "end live plotter stuff"
 
+"How far back do we want to save data when an error occurs"
 global errorinterval
 errorinterval = 4
-        
+
+"Total amount of recorded errors"
+last_line = subprocess.check_output(['tail', '-1', 'Error-Testfile.txt'])[0:-1].decode()
+if os.stat("Error-Testfile.txt").st_size == 0:
+    recorded_errors = 0
+else:
+    c1,c2,c3=last_line.split(',')
+    recorded_errors = int(c3)
+
+
 f1 = plt.figure(figsize=(1,2))
+f1.patch.set_alpha(0.50)
+f1.set_facecolor('lime')
 ax1 = f1.add_subplot(111)
 
 def animate1(i):
@@ -61,6 +73,8 @@ def animate1(i):
     ax1.plot(xs1,ys1)
 
 f2 = plt.figure(figsize=(1,2))
+f2.patch.set_alpha(0.50)
+f2.set_facecolor('lime')
 ax2 = f2.add_subplot(111)
 
 def animate2(i):
@@ -79,6 +93,8 @@ def animate2(i):
     ax2.plot(xs2,ys2)
     
 f3 = plt.figure(figsize=(1,2))
+f3.patch.set_alpha(0.50)
+f3.set_facecolor('lime')
 ax3 = f3.add_subplot(111)
 
 def animate3(i):
@@ -98,8 +114,8 @@ def animate3(i):
     
 
 f4 = plt.figure(figsize=(1,2))
-f4.patch.set_alpha(0.25)
-f4.set_facecolor('g')
+f4.patch.set_alpha(0.50)
+f4.set_facecolor('lime')
 ax4 = f4.add_subplot(111)
 
 def animate4(i):
@@ -115,19 +131,24 @@ def animate4(i):
             xs4.append(x)
             ys4.append(y)
     ax4.clear()
-    ax4.plot(xs4[-20:],ys4[-20:])
+    ax4.plot(xs4[-50:],ys4[-50:])
+    
     global Last_value4
     Last_value4=float(ys4[-1])
-    if float(Last_value4) > 16.00:
+    if float(Last_value4) > 12.00:
+        global recorded_errors
+        recorded_errors += 1
+        f4.patch.set_alpha(1)
         f4.set_facecolor('r')
         Errordata = open('Error-Testfile.txt','a')
-        Errordata.write("%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y")))
+        Errordata.write("%s,%s,%s\n" % ("Test-File4","Y-unit!",str(recorded_errors)))
+        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
             xerror4=float(xs4[-errorinterval+(j)])
             yerror4=float(ys4[-errorinterval+(j)])
-            Errordata.write("%5.2f,%5.2f\n" % (xerror4,yerror4))
+            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror4,yerror4,str(recorded_errors)))
             Errordata.close()
     
     
@@ -209,8 +230,131 @@ class PrettyWidget(QtGui.QTabWidget):
         self.addTab(tab2,'ErrorHandling')
         grid = QtGui.QGridLayout()
         tab2.setLayout(grid)
+        grid.setSpacing(30)
+#ErrorHandling - Display and error-number
+        
+        label_ed = QtGui.QLabel(self)
+        label_ed.setText('Here you see the amount of errors recorded in the Error-Testfile.txt')
+        grid.addWidget(label_ed,2,0,1,1)        
+        label_ev = QtGui.QLabel(self)
+        label_ev.setText('Insert the integer of the error you want to display')
+        grid.addWidget(label_ev,1,0,1,1)
         
         
+        
+        global errordisplay
+        errordisplay = QtGui.QLineEdit(self)
+        errordisplay.setReadOnly(True)
+        errordisplay.setText("recorded errors  =  " + str(recorded_errors))
+        #errordisplay.move(20, 20)
+        #errordisplay.resize(8,8)
+        grid.addWidget(errordisplay,2,1,1,1)
+        
+        global errorvalue
+        errorvalue = QtGui.QLineEdit(self)
+        #errorvalue.setReadOnly(True)
+        #errorvalue.insertPlainText("recorded errors  =  " + str(recorded_errors))
+        #errorvalue.move(20, 20)
+        errorvalue.resize(1,1)
+        grid.addWidget(errorvalue,1,1,1,1)
+        errorvalue.resize(1,1)
+    
+        ploterror = QtGui.QPushButton('Plot chosen error in the window above', self)
+        ploterror.resize(ploterror.sizeHint()) 
+        ploterror.clicked.connect(self.Perror)
+        grid.addWidget(ploterror, 1,2,1,1)     
+        
+        UpdateError = QtGui.QPushButton('Update the display of recorded errors', self)
+        UpdateError.resize(UpdateError.sizeHint()) 
+        UpdateError.clicked.connect(self.Uerror)
+        grid.addWidget(UpdateError, 2,2,1,1)        
+
+        self.errorplot = plt.figure()#figsize=(10,8))
+        self.errorcanvas = FigureCanvas(self.errorplot)
+        grid.addWidget(self.errorcanvas, 0,0,1,4)
+        self.errorplot.add_subplot(111)
+        self.errorcanvas.draw()
+        
+        global errorinfo
+        errorinfo = QtGui.QPlainTextEdit(self)
+        grid.addWidget(errorinfo,0,4,1,1)
+        errorinfo.insertPlainText("The recorded error will be displayed below\n")
+        
+#Reset HK data on tab1
+        Reset1 = QtGui.QPushButton('Reset error in window 1', self)
+        Reset1.resize(Reset1.sizeHint()) 
+        Reset1.clicked.connect(self.R1)
+        grid.addWidget(Reset1, 1,3,1,1)
+        
+        Reset2 = QtGui.QPushButton('Reset error in window 2', self)
+        Reset2.resize(Reset2.sizeHint()) 
+        Reset2.clicked.connect(self.R2)
+        grid.addWidget(Reset2, 1,4,1,1)
+        
+        Reset3 = QtGui.QPushButton('Reset error in window 3', self)
+        Reset3.resize(Reset3.sizeHint()) 
+        Reset3.clicked.connect(self.R3)
+        grid.addWidget(Reset3, 2,3,1,1)
+        
+        Reset4 = QtGui.QPushButton('Reset error in window 4', self)
+        Reset4.resize(Reset4.sizeHint()) 
+        Reset4.clicked.connect(self.R4)
+        grid.addWidget(Reset4, 2,4,1,1)
+        
+    def Perror(self):
+        
+        plt.cla()
+        xerror=[]
+        yerror=[]
+        errorinfo.clear()
+        errorinfo.insertPlainText("The recorded error will be displayed below in the format\ntime,value,errornumber\n\n")
+        global errorwanted
+        errorwanted=errorvalue.text()
+        if not errorwanted:
+            errorinfo.clear()
+            errorinfo.insertPlainText("Please insert an integer of the error you would like to display")
+        else:
+            with open('Error-Testfile.txt','r') as ff:
+                for line in ff:
+                    line = line.rstrip()
+                    if line.endswith(","+errorwanted):
+                        errorinfo.insertPlainText(line)
+                        errorinfo.insertPlainText("\n")
+                        xe,ye,num=line.split(',')
+                        xerror.append(xe)
+                        yerror.append(ye)
+            errorwindow=self.errorplot.add_subplot(111)
+            
+            errorwindow.set_title(str(xerror[0]),fontweight="bold", size=20) # Title
+            errorwindow.set_ylabel(yerror[0], fontsize = 20.0) # Y label
+            errorwindow.set_xlabel('real time', fontsize = 20) # X label
+            xerror.pop(0)
+            xerror.pop(0)
+            yerror.pop(0)
+            yerror.pop(0)
+            errorwindow.plot(xerror,yerror)
+            self.errorcanvas.draw()
+                    
+    def Uerror(self):
+        errordisplay.clear()
+        errordisplay.setText("recorded errors  =  " + str(recorded_errors))
+    
+    def R1(self):
+        f1.patch.set_alpha(0.50)
+        f1.set_facecolor('lime')
+        
+    def R2(self):
+        f2.patch.set_alpha(0.50)
+        f2.set_facecolor('lime')
+        
+    def R3(self):
+        f3.patch.set_alpha(0.50)
+        f3.set_facecolor('lime')
+        
+    def R4(self):
+        f4.patch.set_alpha(0.50)
+        f4.set_facecolor('lime')
+    
     
     def plot1(self):
         plt.cla()
