@@ -41,7 +41,7 @@ import matplotlib.animation as animation
 
 "How far back do we want to save data when an error occurs"
 global errorinterval
-errorinterval = 4
+errorinterval = 70
 
 "Make sure it doesn't double save same datapoint"
 global size_of_1
@@ -63,6 +63,7 @@ else:
 
 
 f1 = plt.figure(figsize=(1,2))
+plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 f1.patch.set_alpha(0.50)
 f1.set_facecolor('lime')
 ax1 = f1.add_subplot(111)
@@ -97,14 +98,20 @@ def animate1(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File1","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
+        xerror1=float(0.00); yerror1=float(0.00)
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
-            xerror1=float(xs1[-errorinterval+(j)])
-            yerror1=float(ys1[-errorinterval+(j)])
+            try:
+                global xerror1; global yerror1
+                xerror1=float(xs1[-errorinterval+(j)])
+                yerror1=float(ys1[-errorinterval+(j)])
+            except:
+                ""
             Errordata.write("%5.2f,%5.2f,%s\n" % (xerror1,yerror1,str(recorded_errors)))
             Errordata.close()
 
 f2 = plt.figure(figsize=(1,2))
+plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 f2.patch.set_alpha(0.50)
 f2.set_facecolor('lime')
 ax2 = f2.add_subplot(111)
@@ -137,14 +144,20 @@ def animate2(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File2","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
+        xerror2=float(0.00); yerror2=float(0.00)
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
-            xerror2=float(xs2[-errorinterval+(j)])
-            yerror2=float(ys2[-errorinterval+(j)])
+            try:
+                global xerror2; global yerror2
+                xerror2=float(xs2[-errorinterval+(j)])
+                yerror2=float(ys2[-errorinterval+(j)])
+            except:
+                ""
             Errordata.write("%5.2f,%5.2f,%s\n" % (xerror2,yerror2,str(recorded_errors)))
             Errordata.close()
     
 f3 = plt.figure(figsize=(1,2))
+plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 f3.patch.set_alpha(0.50)
 f3.set_facecolor('lime')
 ax3 = f3.add_subplot(111)
@@ -177,14 +190,20 @@ def animate3(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File3","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
+        xerror3=float(0.00); yerror3=float(0.00)
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
-            xerror3=float(xs3[-errorinterval+(j)])
-            yerror3=float(ys3[-errorinterval+(j)])
+            try:
+                global xerror3; global yerror3
+                xerror3=float(xs3[-errorinterval+(j)])
+                yerror3=float(ys3[-errorinterval+(j)])
+            except:
+                ""
             Errordata.write("%5.2f,%5.2f,%s\n" % (xerror3,yerror3,str(recorded_errors)))
             Errordata.close()
 
 f4 = plt.figure(figsize=(1,2))
+plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 f4.patch.set_alpha(0.50)
 f4.set_facecolor('lime')
 ax4 = f4.add_subplot(111)
@@ -217,10 +236,15 @@ def animate4(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File4","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
+        xerror4=float(0.00); yerror4=float(0.00)
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
-            xerror4=float(xs4[-errorinterval+(j)])
-            yerror4=float(ys4[-errorinterval+(j)])
+            try:
+                global xerror4; global yerror4
+                xerror4=float(xs4[-errorinterval+(j)])
+                yerror4=float(ys4[-errorinterval+(j)])
+            except:
+                ""
             Errordata.write("%5.2f,%5.2f,%s\n" % (xerror4,yerror4,str(recorded_errors)))
             Errordata.close()
     
@@ -239,14 +263,20 @@ class PrettyWidget(QtGui.QTabWidget):
         self.center()
         self.setWindowTitle('HK data')     
        
+        stylesheet = """ 
+        QTabWidget::tab-bar {alignment: center;}
+        """
+#    QTabBar::tab:selected {background: gray;}
+#    QTabWidget>QWidget>QWidget{background: gray;}
 
+        self.setStyleSheet(stylesheet)
        
 #Test - adding tabs
         tab1 = QtGui.QWidget()
-        
-        self.addTab(tab1,'hk')
+        self.addTab(tab1,'House Keeping')
         grid = QtGui.QGridLayout()
         tab1.setLayout(grid)
+        
 #End tab test 1 All below inserted into tab?
        
         btn1 = QtGui.QPushButton('Plot 1', self)
@@ -273,25 +303,27 @@ class PrettyWidget(QtGui.QTabWidget):
         self.figure1 = f1# plt.figure(figsize=(1,2))
         self.canvas1 = FigureCanvas(self.figure1)
         grid.addWidget(self.canvas1, 2,0)
-        plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
+       # plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
         
         self.figure2 = f2#plt.figure(figsize=(2,2))
         self.canvas2 = FigureCanvas(self.figure2)
         grid.addWidget(self.canvas2, 2,1)
-        plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
+       # plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
         
         self.figure3 = f3#plt.figure(figsize=(2,2))
         self.canvas3 = FigureCanvas(self.figure3)
         grid.addWidget(self.canvas3, 2,2)
-        plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
+        #plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
         
         self.figure4 = f4#plt.figure(figsize=(1,2))
         self.canvas4 = FigureCanvas(self.figure4)
         grid.addWidget(self.canvas4, 2,3)
-        #plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
+       # plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 
         
-        self.figure = plt.figure(figsize=(30,8))    
+        self.figure = plt.figure(figsize=(50,8))    
+        #self.figure.set_facecolor('grey')
+        self.figure.patch.set_alpha(0)
         self.canvas = FigureCanvas(self.figure)     
         self.toolbar = NavigationToolbar(self.canvas, self)
         grid.addWidget(self.canvas, 1,0,1,4)
@@ -300,10 +332,10 @@ class PrettyWidget(QtGui.QTabWidget):
            
 #Tab 2
         tab2 = QtGui.QWidget()
-        self.addTab(tab2,'ErrorHandling')
+        self.addTab(tab2,'Error Handling')
         grid = QtGui.QGridLayout()
         tab2.setLayout(grid)
-        grid.setSpacing(30)
+        grid.setSpacing(15)
 #ErrorHandling - Display and error-number
         
         label_ed = QtGui.QLabel(self)
@@ -319,15 +351,10 @@ class PrettyWidget(QtGui.QTabWidget):
         errordisplay = QtGui.QLineEdit(self)
         errordisplay.setReadOnly(True)
         errordisplay.setText("recorded errors  =  " + str(recorded_errors))
-        #errordisplay.move(20, 20)
-        #errordisplay.resize(8,8)
         grid.addWidget(errordisplay,2,1,1,1)
         
         global errorvalue
         errorvalue = QtGui.QLineEdit(self)
-        #errorvalue.setReadOnly(True)
-        #errorvalue.insertPlainText("recorded errors  =  " + str(recorded_errors))
-        #errorvalue.move(20, 20)
         errorvalue.resize(1,1)
         grid.addWidget(errorvalue,1,1,1,1)
         errorvalue.resize(1,1)
@@ -343,14 +370,20 @@ class PrettyWidget(QtGui.QTabWidget):
         grid.addWidget(UpdateError, 2,2,1,1)        
 
         self.errorplot = plt.figure()#figsize=(10,8))
+        self.errorplot.patch.set_alpha(0)
         self.errorcanvas = FigureCanvas(self.errorplot)
-        grid.addWidget(self.errorcanvas, 0,0,1,4)
+        grid.addWidget(self.errorcanvas, 0,0,1,3)
         self.errorplot.add_subplot(111)
         self.errorcanvas.draw()
         
+        my_spacer = QtGui.QSpacerItem(100, 1, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)        
+        grid.addItem(my_spacer,0,3,1,1)
+                
+        
+        
         global errorinfo
         errorinfo = QtGui.QPlainTextEdit(self)
-        grid.addWidget(errorinfo,0,4,1,1)
+        grid.addWidget(errorinfo,0,4,1,2)
         errorinfo.insertPlainText("The recorded error will be displayed below\n")
         
 #Reset HK data on tab1
@@ -362,17 +395,17 @@ class PrettyWidget(QtGui.QTabWidget):
         Reset2 = QtGui.QPushButton('Reset error in window 2', self)
         Reset2.resize(Reset2.sizeHint()) 
         Reset2.clicked.connect(self.R2)
-        grid.addWidget(Reset2, 2,4,1,1)
+        grid.addWidget(Reset2, 1,5,1,1)
         
         Reset3 = QtGui.QPushButton('Reset error in window 3', self)
         Reset3.resize(Reset3.sizeHint()) 
         Reset3.clicked.connect(self.R3)
-        grid.addWidget(Reset3, 3,4,1,1)
+        grid.addWidget(Reset3, 2,4,1,1)
         
         Reset4 = QtGui.QPushButton('Reset error in window 4', self)
         Reset4.resize(Reset4.sizeHint()) 
         Reset4.clicked.connect(self.R4)
-        grid.addWidget(Reset4, 4,4,1,1)
+        grid.addWidget(Reset4, 2,5,1,1)
         
     def Perror(self):
         
@@ -489,11 +522,11 @@ class PrettyWidget(QtGui.QTabWidget):
 def main():
     app = QtGui.QApplication(sys.argv)
     w = PrettyWidget()
-    animate1(1); animate2(1); animate3(3)
-    ani1 = animation.FuncAnimation(f1, animate1, interval=10000)
-    ani2 = animation.FuncAnimation(f2, animate2, interval=10000)
-    ani3 = animation.FuncAnimation(f3, animate3, interval=10000)
-    ani4 = animation.FuncAnimation(f4, animate4, interval=10000)
+    animate1(1); animate2(1); animate3(1); animate4(1)
+    ani1 = animation.FuncAnimation(f1, animate1, interval=2000)
+    ani2 = animation.FuncAnimation(f2, animate2, interval=2000)
+    ani3 = animation.FuncAnimation(f3, animate3, interval=2000)
+    ani4 = animation.FuncAnimation(f4, animate4, interval=2000)
     app.exec_()
 
 
