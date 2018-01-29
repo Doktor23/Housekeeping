@@ -43,6 +43,16 @@ import matplotlib.animation as animation
 global errorinterval
 errorinterval = 4
 
+"Make sure it doesn't double save same datapoint"
+global size_of_1
+global size_of_2
+global size_of_3
+global size_of_4
+size_of_1=len(open('HStemperature.txt','r').read().split('\n'))-1
+size_of_2=len(open('HSvolt.txt','r').read().split('\n'))-1
+size_of_3=len(open('HSrandom.txt','r').read().split('\n'))-1
+size_of_4=len(open('testfile.txt','r').read().split('\n'))-1
+
 "Total amount of recorded errors"
 last_line = subprocess.check_output(['tail', '-1', 'Error-Testfile.txt'])[0:-1].decode()
 if os.stat("Error-Testfile.txt").st_size == 0:
@@ -56,6 +66,8 @@ f1 = plt.figure(figsize=(1,2))
 f1.patch.set_alpha(0.50)
 f1.set_facecolor('lime')
 ax1 = f1.add_subplot(111)
+
+"liveplotting animations"
 
 def animate1(i):
     graph_data = open('HStemperature.txt','r').read()
@@ -71,6 +83,26 @@ def animate1(i):
             ys1.append(y)
     ax1.clear()
     ax1.plot(xs1,ys1)
+    
+    global Last_value1
+    Last_value1=float(ys1[-1])
+    if float(Last_value1) > 12.00 and len(xs1) > size_of_1:
+        global size_of_1
+        size_of_1=len(xs1)
+        global recorded_errors
+        recorded_errors += 1
+        f1.patch.set_alpha(1)
+        f1.set_facecolor('r')
+        Errordata = open('Error-Testfile.txt','a')
+        Errordata.write("%s,%s,%s\n" % ("Test-File1","Y-unit!",str(recorded_errors)))
+        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
+        Errordata.close()
+        for j in range(errorinterval):
+            Errordata = open('Error-Testfile.txt','a')
+            xerror1=float(xs1[-errorinterval+(j)])
+            yerror1=float(ys1[-errorinterval+(j)])
+            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror1,yerror1,str(recorded_errors)))
+            Errordata.close()
 
 f2 = plt.figure(figsize=(1,2))
 f2.patch.set_alpha(0.50)
@@ -92,6 +124,26 @@ def animate2(i):
     ax2.clear()
     ax2.plot(xs2,ys2)
     
+    global Last_value2
+    Last_value2=float(ys2[-1])
+    if float(Last_value2) > 12.00 and len(xs2) > size_of_2:
+        global size_of_2
+        size_of_2=len(xs2)
+        global recorded_errors
+        recorded_errors += 1
+        f2.patch.set_alpha(1)
+        f2.set_facecolor('r')
+        Errordata = open('Error-Testfile.txt','a')
+        Errordata.write("%s,%s,%s\n" % ("Test-File2","Y-unit!",str(recorded_errors)))
+        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
+        Errordata.close()
+        for j in range(errorinterval):
+            Errordata = open('Error-Testfile.txt','a')
+            xerror2=float(xs2[-errorinterval+(j)])
+            yerror2=float(ys2[-errorinterval+(j)])
+            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror2,yerror2,str(recorded_errors)))
+            Errordata.close()
+    
 f3 = plt.figure(figsize=(1,2))
 f3.patch.set_alpha(0.50)
 f3.set_facecolor('lime')
@@ -112,6 +164,25 @@ def animate3(i):
     ax3.clear()
     ax3.plot(xs3,ys3)
     
+    global Last_value3
+    Last_value3=float(ys3[-1])
+    if float(Last_value3) > 12.00 and len(xs3) > size_of_3:
+        global size_of_3
+        size_of_3=len(xs3)
+        global recorded_errors
+        recorded_errors += 1
+        f3.patch.set_alpha(1)
+        f3.set_facecolor('r')
+        Errordata = open('Error-Testfile.txt','a')
+        Errordata.write("%s,%s,%s\n" % ("Test-File3","Y-unit!",str(recorded_errors)))
+        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
+        Errordata.close()
+        for j in range(errorinterval):
+            Errordata = open('Error-Testfile.txt','a')
+            xerror3=float(xs3[-errorinterval+(j)])
+            yerror3=float(ys3[-errorinterval+(j)])
+            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror3,yerror3,str(recorded_errors)))
+            Errordata.close()
 
 f4 = plt.figure(figsize=(1,2))
 f4.patch.set_alpha(0.50)
@@ -135,7 +206,9 @@ def animate4(i):
     
     global Last_value4
     Last_value4=float(ys4[-1])
-    if float(Last_value4) > 12.00:
+    if float(Last_value4) > 12.00 and len(xs4) > size_of_4:
+        global size_of_4
+        size_of_4=len(xs4)
         global recorded_errors
         recorded_errors += 1
         f4.patch.set_alpha(1)
@@ -215,7 +288,7 @@ class PrettyWidget(QtGui.QTabWidget):
         self.figure4 = f4#plt.figure(figsize=(1,2))
         self.canvas4 = FigureCanvas(self.figure4)
         grid.addWidget(self.canvas4, 2,3)
-        plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
+        #plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 
         
         self.figure = plt.figure(figsize=(30,8))    
@@ -284,22 +357,22 @@ class PrettyWidget(QtGui.QTabWidget):
         Reset1 = QtGui.QPushButton('Reset error in window 1', self)
         Reset1.resize(Reset1.sizeHint()) 
         Reset1.clicked.connect(self.R1)
-        grid.addWidget(Reset1, 1,3,1,1)
+        grid.addWidget(Reset1, 1,4,1,1)
         
         Reset2 = QtGui.QPushButton('Reset error in window 2', self)
         Reset2.resize(Reset2.sizeHint()) 
         Reset2.clicked.connect(self.R2)
-        grid.addWidget(Reset2, 1,4,1,1)
+        grid.addWidget(Reset2, 2,4,1,1)
         
         Reset3 = QtGui.QPushButton('Reset error in window 3', self)
         Reset3.resize(Reset3.sizeHint()) 
         Reset3.clicked.connect(self.R3)
-        grid.addWidget(Reset3, 2,3,1,1)
+        grid.addWidget(Reset3, 3,4,1,1)
         
         Reset4 = QtGui.QPushButton('Reset error in window 4', self)
         Reset4.resize(Reset4.sizeHint()) 
         Reset4.clicked.connect(self.R4)
-        grid.addWidget(Reset4, 2,4,1,1)
+        grid.addWidget(Reset4, 4,4,1,1)
         
     def Perror(self):
         
@@ -357,9 +430,10 @@ class PrettyWidget(QtGui.QTabWidget):
     
     
     def plot1(self):
+        self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs1,ys1)
+        mainwindow.plot(xs1[-200:],ys1[-200:])
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('Temperature of... plottet:     '+timeofday,fontweight="bold", size=20) # Title
@@ -368,9 +442,10 @@ class PrettyWidget(QtGui.QTabWidget):
         self.canvas.draw()
     
     def plot2(self):
+        self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs2,ys2)
+        mainwindow.plot(xs2[-200:],ys2[-200:])
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('Voltage of... plottet:     '+timeofday,fontweight="bold", size=20) # Title
@@ -380,9 +455,10 @@ class PrettyWidget(QtGui.QTabWidget):
 
 
     def plot3(self):
+        self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs3,ys3)
+        mainwindow.plot(xs3[-200:],ys3[-200:])
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('More?... plottet:     '+timeofday,fontweight="bold", size=20) # Title
@@ -391,6 +467,7 @@ class PrettyWidget(QtGui.QTabWidget):
         self.canvas.draw()
         
     def plot4(self):
+        self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
         mainwindow.plot(xs4[-200:],ys4[-200:])
@@ -413,10 +490,10 @@ def main():
     app = QtGui.QApplication(sys.argv)
     w = PrettyWidget()
     animate1(1); animate2(1); animate3(3)
-    ani1 = animation.FuncAnimation(f1, animate1, interval=5000)
-    ani2 = animation.FuncAnimation(f2, animate2, interval=5000)
-    ani3 = animation.FuncAnimation(f3, animate3, interval=5000)
-    ani4 = animation.FuncAnimation(f4, animate4, interval=1200)
+    ani1 = animation.FuncAnimation(f1, animate1, interval=10000)
+    ani2 = animation.FuncAnimation(f2, animate2, interval=10000)
+    ani3 = animation.FuncAnimation(f3, animate3, interval=10000)
+    ani4 = animation.FuncAnimation(f4, animate4, interval=10000)
     app.exec_()
 
 
