@@ -63,10 +63,11 @@ else:
 
 
 f1 = plt.figure(figsize=(1,2))
-plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 f1.patch.set_alpha(0.50)
 f1.set_facecolor('lime')
 ax1 = f1.add_subplot(111)
+
+plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 
 "liveplotting animations"
 
@@ -83,12 +84,15 @@ def animate1(i):
             xs1.append(x)
             ys1.append(y)
     ax1.clear()
-    ax1.plot(xs1,ys1)
+    ax1.plot(xs1,ys1,'bo-')
+    ax1.set_title('Temperature of Batteri?',fontweight="bold", size=20) # Title
+    ax1.set_ylabel('Temperature(celcius)', fontsize = 20.0) # Y label
+    ax1.set_xlabel('real time', fontsize = 20) # X label
     
     global Last_value1
     Last_value1=float(ys1[-1])
+    global size_of_1
     if float(Last_value1) > 12.00 and len(xs1) > size_of_1:
-        global size_of_1
         size_of_1=len(xs1)
         global recorded_errors
         recorded_errors += 1
@@ -98,17 +102,18 @@ def animate1(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File1","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
-        xerror1=float(0.00); yerror1=float(0.00)
+        global xerror1; global yerror1
+        #xerror1=float(xs1[-1]); yerror1=float(ys1[-1])
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
             try:
-                global xerror1; global yerror1
                 xerror1=float(xs1[-errorinterval+(j)])
                 yerror1=float(ys1[-errorinterval+(j)])
+                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror1,yerror1,str(recorded_errors)))
+                Errordata.close()
             except:
                 ""
-            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror1,yerror1,str(recorded_errors)))
-            Errordata.close()
+
 
 f2 = plt.figure(figsize=(1,2))
 plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
@@ -129,12 +134,12 @@ def animate2(i):
             xs2.append(x)
             ys2.append(y)
     ax2.clear()
-    ax2.plot(xs2,ys2)
+    ax2.plot(xs2,ys2,'mo-')
     
     global Last_value2
     Last_value2=float(ys2[-1])
+    global size_of_2
     if float(Last_value2) > 12.00 and len(xs2) > size_of_2:
-        global size_of_2
         size_of_2=len(xs2)
         global recorded_errors
         recorded_errors += 1
@@ -144,17 +149,18 @@ def animate2(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File2","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
-        xerror2=float(0.00); yerror2=float(0.00)
+        global xerror2; global yerror2
+        #xerror2=float(xs2[-1]); yerror2=float(ys2[-1])
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
             try:
-                global xerror2; global yerror2
                 xerror2=float(xs2[-errorinterval+(j)])
                 yerror2=float(ys2[-errorinterval+(j)])
+                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror2,yerror2,str(recorded_errors)))
+                Errordata.close()
             except:
                 ""
-            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror2,yerror2,str(recorded_errors)))
-            Errordata.close()
+
     
 f3 = plt.figure(figsize=(1,2))
 plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
@@ -175,12 +181,12 @@ def animate3(i):
             xs3.append(x)
             ys3.append(y)
     ax3.clear()
-    ax3.plot(xs3,ys3)
+    ax3.plot(xs3,ys3,'ko-')
     
     global Last_value3
     Last_value3=float(ys3[-1])
+    global size_of_3
     if float(Last_value3) > 12.00 and len(xs3) > size_of_3:
-        global size_of_3
         size_of_3=len(xs3)
         global recorded_errors
         recorded_errors += 1
@@ -190,17 +196,18 @@ def animate3(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File3","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
-        xerror3=float(0.00); yerror3=float(0.00)
+        global xerror3; global yerror3
+        #xerror3=float(xs3[-1]); yerror3=float(ys3[-1])
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
             try:
-                global xerror3; global yerror3
                 xerror3=float(xs3[-errorinterval+(j)])
                 yerror3=float(ys3[-errorinterval+(j)])
+                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror3,yerror3,str(recorded_errors)))
+                Errordata.close()
             except:
                 ""
-            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror3,yerror3,str(recorded_errors)))
-            Errordata.close()
+
 
 f4 = plt.figure(figsize=(1,2))
 plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
@@ -221,12 +228,12 @@ def animate4(i):
             xs4.append(x)
             ys4.append(y)
     ax4.clear()
-    ax4.plot(xs4[-50:],ys4[-50:])
+    ax4.plot(xs4[-50:],ys4[-50:],'yo-')
     
     global Last_value4
     Last_value4=float(ys4[-1])
+    global size_of_4
     if float(Last_value4) > 12.00 and len(xs4) > size_of_4:
-        global size_of_4
         size_of_4=len(xs4)
         global recorded_errors
         recorded_errors += 1
@@ -236,17 +243,18 @@ def animate4(i):
         Errordata.write("%s,%s,%s\n" % ("Test-File4","Y-unit!",str(recorded_errors)))
         Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
         Errordata.close()
-        xerror4=float(0.00); yerror4=float(0.00)
+        global xerror4; global yerror4
+        #xerror4=float(xs4[-1]); yerror4=float(ys4[-1])
         for j in range(errorinterval):
             Errordata = open('Error-Testfile.txt','a')
             try:
-                global xerror4; global yerror4
                 xerror4=float(xs4[-errorinterval+(j)])
                 yerror4=float(ys4[-errorinterval+(j)])
+                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror4,yerror4,str(recorded_errors)))
+                Errordata.close()
             except:
                 ""
-            Errordata.write("%5.2f,%5.2f,%s\n" % (xerror4,yerror4,str(recorded_errors)))
-            Errordata.close()
+
     
     
 class PrettyWidget(QtGui.QTabWidget):
@@ -414,7 +422,7 @@ class PrettyWidget(QtGui.QTabWidget):
         yerror=[]
         errorinfo.clear()
         errorinfo.insertPlainText("The recorded error will be displayed below in the format\ntime,value,errornumber\n\n")
-        global errorwanted
+        global errorwanted;
         errorwanted=errorvalue.text()
         if not errorwanted:
             errorinfo.clear()
@@ -430,15 +438,14 @@ class PrettyWidget(QtGui.QTabWidget):
                         xerror.append(xe)
                         yerror.append(ye)
             errorwindow=self.errorplot.add_subplot(111)
-            
-            errorwindow.set_title(str(xerror[0]),fontweight="bold", size=20) # Title
-            errorwindow.set_ylabel(yerror[0], fontsize = 20.0) # Y label
-            errorwindow.set_xlabel('real time', fontsize = 20) # X label
+            errorwindow.set_title(str(xerror[0])+'    recorded: '+str(xerror[1])+', '+str(yerror[1]),fontweight="bold", size=32) # Title
+            errorwindow.set_ylabel(yerror[0], fontsize = 30) # Y label
+            errorwindow.set_xlabel('real time', fontsize = 30) # X label
             xerror.pop(0)
             xerror.pop(0)
             yerror.pop(0)
             yerror.pop(0)
-            errorwindow.plot(xerror,yerror)
+            errorwindow.plot(xerror,yerror,'ro-')
             self.errorcanvas.draw()
                     
     def Uerror(self):
@@ -466,7 +473,7 @@ class PrettyWidget(QtGui.QTabWidget):
         self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs1[-200:],ys1[-200:])
+        mainwindow.plot(xs1[-200:],ys1[-200:],'bo-')
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('Temperature of... plottet:     '+timeofday,fontweight="bold", size=20) # Title
@@ -478,7 +485,7 @@ class PrettyWidget(QtGui.QTabWidget):
         self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs2[-200:],ys2[-200:])
+        mainwindow.plot(xs2[-200:],ys2[-200:],'mo-')
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('Voltage of... plottet:     '+timeofday,fontweight="bold", size=20) # Title
@@ -491,7 +498,7 @@ class PrettyWidget(QtGui.QTabWidget):
         self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs3[-200:],ys3[-200:])
+        mainwindow.plot(xs3[-200:],ys3[-200:],'ko-')
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('More?... plottet:     '+timeofday,fontweight="bold", size=20) # Title
@@ -503,7 +510,7 @@ class PrettyWidget(QtGui.QTabWidget):
         self.figure.clf()
         plt.cla()
         mainwindow=self.figure.add_subplot(111)
-        mainwindow.plot(xs4[-200:],ys4[-200:])
+        mainwindow.plot(xs4[-200:],ys4[-200:],'yo-')
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
         mainwindow.set_title('More?... plottet:     '+timeofday,fontweight="bold", size=20) # Title

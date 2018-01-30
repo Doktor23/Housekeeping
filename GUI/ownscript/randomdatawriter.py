@@ -36,4 +36,4 @@ for i in range(1000):
     randomdata1.write("%5.2f,%5.2f\n" % (i,r_num))
     randomdata1.close()
     print('%',i)
-    time.sleep(5)
+    time.sleep(1)
