@@ -443,25 +443,28 @@ class PrettyWidget(QtGui.QTabWidget):
             errorinfo.clear()
             errorinfo.insertPlainText("Please insert an integer of the error you would like to display")
         else:
-            with open('Error-Testfile.txt','r') as ff:
-                for line in ff:
-                    line = line.rstrip()
-                    if line.endswith(","+errorwanted):
-                        errorinfo.insertPlainText(line)
-                        errorinfo.insertPlainText("\n")
-                        xe,ye,num=line.split(',')
-                        xerror.append(xe)
-                        yerror.append(ye)
-            errorwindow=self.errorplot.add_subplot(111)
-            errorwindow.set_title(str(xerror[0])+'    recorded: '+str(xerror[1])+', '+str(yerror[1]),fontweight="bold", size=32) # Title
-            errorwindow.set_ylabel(yerror[0], fontsize = 30) # Y label
-            errorwindow.set_xlabel('real time', fontsize = 30) # X label
-            xerror.pop(0)
-            xerror.pop(0)
-            yerror.pop(0)
-            yerror.pop(0)
-            errorwindow.plot(xerror,yerror,'ro-')
-            self.errorcanvas.draw()
+            try:
+                with open('Error-Testfile.txt','r') as ff:
+                    for line in ff:
+                        line = line.rstrip()
+                        if line.endswith(","+errorwanted):
+                            errorinfo.insertPlainText(line)
+                            errorinfo.insertPlainText("\n")
+                            xe,ye,num=line.split(',')
+                            xerror.append(xe)
+                            yerror.append(ye)
+                    errorwindow=self.errorplot.add_subplot(111)
+                    errorwindow.set_title(str(xerror[0])+'    recorded: '+str(xerror[1])+', '+str(yerror[1]),fontweight="bold", size=32) # Title
+                    errorwindow.set_ylabel(yerror[0], fontsize = 30) # Y label
+                    errorwindow.set_xlabel('real time', fontsize = 30) # X label
+                    xerror.pop(0)
+                    xerror.pop(0)
+                    yerror.pop(0)
+                    yerror.pop(0)
+                    errorwindow.plot(xerror,yerror,'ro-')
+                    self.errorcanvas.draw()
+            except:
+                errorinfo.insertPlainText("\n\n ERROR: You have chosen an error number larger than amount of errors recorded")
                     
     def Uerror(self):
         errordisplay.clear()
