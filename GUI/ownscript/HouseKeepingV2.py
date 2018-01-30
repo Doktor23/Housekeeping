@@ -1,21 +1,25 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 24 15:27:14 2018
+Created on Tue Jan 30 16:22:59 2018
 
+@author: doktor
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Jan 24 15:27:14 2018
 @author: doktor
 """
 
 # -*- coding: utf-8 -*-
 """
 Created on Thu Jan 18 15:34:02 2018
-
 @author: doktor
 """
 
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jan  3 15:01:32 2018
-
 @author: doktor
 """
 
@@ -52,23 +56,16 @@ size_of_1=len(open('HStemperature.txt','r').read().split('\n'))-1
 size_of_2=len(open('HSvolt.txt','r').read().split('\n'))-1
 size_of_3=len(open('HSrandom.txt','r').read().split('\n'))-1
 size_of_4=len(open('testfile.txt','r').read().split('\n'))-1
+
 "Total amount of recorded errors"
-
-#last_line = subprocess.check_output(['tail', '-1', Errorfile])[0:-1].decode()
-#if os.stat(Errorfile).st_size == 0:
-#    recorded_errors = 0
-#else:
-#    c1,c2,c3=last_line.split(',')
-#    recorded_errors = int(c3)
-
-"Choose default"
-#something = QtGui.QApplication([])
-#QtGui.QMessageBox.information(None, "Information", "Choose the Error File!")
-#Errorfilename = QtGui.QFileDialog.getOpenFileName(None,"CHOOSE ERROR FILE!", "os.chdir(path)", "Text files (*.txt)");
-#Errorfile = Errorfilename.split("/")[-1]
+last_line = subprocess.check_output(['tail', '-1', 'Error-Testfile.txt'])[0:-1].decode()
+if os.stat("Error-Testfile.txt").st_size == 0:
+    recorded_errors = 0
+else:
+    c1,c2,c3=last_line.split(',')
+    recorded_errors = int(c3)
 
 
-#ANIMATIONS
 f1 = plt.figure(figsize=(1,2))
 f1.patch.set_alpha(0.50)
 f1.set_facecolor('lime')
@@ -107,14 +104,14 @@ def animate1(i):
                 recorded_errors += 1
                 f1.patch.set_alpha(1)
                 f1.set_facecolor('r')
-                Errordata = open(Errorfile,'a')#open('Error-Testfile.txt','a')
+                Errordata = open('Error-Testfile.txt','a')
                 Errordata.write("%s,%s,%s\n" % ("Test-File1","Y-unit!",str(recorded_errors)))
                 Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
                 global xerror1; global yerror1
                 #xerror1=float(xs1[-1]); yerror1=float(ys1[-1])
                 for j in range(errorinterval):
-                    Errordata = open(Errorfile,'a')
+                    Errordata = open('Error-Testfile.txt','a')
                     try:
                         xerror1=float(xs1[-errorinterval+(j)])
                         yerror1=float(ys1[-errorinterval+(j)])
@@ -157,14 +154,14 @@ def animate2(i):
                 recorded_errors += 1
                 f2.patch.set_alpha(1)
                 f2.set_facecolor('r')
-                Errordata = open(Errorfile,'a')#open('Error-Testfile.txt','a')
+                Errordata = open('Error-Testfile.txt','a')
                 Errordata.write("%s,%s,%s\n" % ("Test-File2","Y-unit!",str(recorded_errors)))
                 Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
                 global xerror2; global yerror2
                 #xerror2=float(xs2[-1]); yerror2=float(ys2[-1])
                 for j in range(errorinterval):
-                    Errordata = open(Errorfile,'a')
+                    Errordata = open('Error-Testfile.txt','a')
                     try:
                         xerror2=float(xs2[-errorinterval+(j)])
                         yerror2=float(ys2[-errorinterval+(j)])
@@ -207,14 +204,14 @@ def animate3(i):
                 recorded_errors += 1
                 f3.patch.set_alpha(1)
                 f3.set_facecolor('r')
-                Errordata = open(Errorfile,'a')#open('Error-Testfile.txt','a')
+                Errordata = open('Error-Testfile.txt','a')
                 Errordata.write("%s,%s,%s\n" % ("Test-File3","Y-unit!",str(recorded_errors)))
                 Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
                 global xerror3; global yerror3
                 #xerror3=float(xs3[-1]); yerror3=float(ys3[-1])
                 for j in range(errorinterval):
-                    Errordata = open(Errorfile,'a')
+                    Errordata = open('Error-Testfile.txt','a')
                     try:
                         xerror3=float(xs3[-errorinterval+(j)])
                         yerror3=float(ys3[-errorinterval+(j)])
@@ -257,14 +254,14 @@ def animate4(i):
                 recorded_errors += 1
                 f4.patch.set_alpha(1)
                 f4.set_facecolor('r')
-                Errordata = open(Errorfile,'a')#open('Error-Testfile.txt','a')
+                Errordata = open('Error-Testfile.txt','a')
                 Errordata.write("%s,%s,%s\n" % ("Test-File4","Y-unit!",str(recorded_errors)))
                 Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
                 global xerror4; global yerror4
                 #xerror4=float(xs4[-1]); yerror4=float(ys4[-1])
                 for j in range(errorinterval):
-                    Errordata = open(Errorfile,'a')
+                    Errordata = open('Error-Testfile.txt','a')
                     try:
                         xerror4=float(xs4[-errorinterval+(j)])
                         yerror4=float(ys4[-errorinterval+(j)])
@@ -272,7 +269,7 @@ def animate4(i):
                         Errordata.close()
                     except:
                         ""
-    
+
     
     
 class PrettyWidget(QtGui.QTabWidget):
@@ -326,24 +323,29 @@ class PrettyWidget(QtGui.QTabWidget):
         grid.addWidget(btn4, 3,3,1,1)
         
      
-        self.figure1 = f1
+        self.figure1 = f1# plt.figure(figsize=(1,2))
         self.canvas1 = FigureCanvas(self.figure1)
         grid.addWidget(self.canvas1, 2,0)
+       # plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
         
-        self.figure2 = f2
+        self.figure2 = f2#plt.figure(figsize=(2,2))
         self.canvas2 = FigureCanvas(self.figure2)
         grid.addWidget(self.canvas2, 2,1)
+       # plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
         
-        self.figure3 = f3
+        self.figure3 = f3#plt.figure(figsize=(2,2))
         self.canvas3 = FigureCanvas(self.figure3)
         grid.addWidget(self.canvas3, 2,2)
+        #plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
         
-        self.figure4 = f4
+        self.figure4 = f4#plt.figure(figsize=(1,2))
         self.canvas4 = FigureCanvas(self.figure4)
         grid.addWidget(self.canvas4, 2,3)
+       # plt.subplots_adjust(left=0.15, bottom=0.17, right=0.9, top=0.92)
 
         
         self.figure = plt.figure(figsize=(50,8))    
+        #self.figure.set_facecolor('grey')
         self.figure.patch.set_alpha(0)
         self.canvas = FigureCanvas(self.figure)     
         self.toolbar = NavigationToolbar(self.canvas, self)
@@ -359,53 +361,38 @@ class PrettyWidget(QtGui.QTabWidget):
         grid.setSpacing(15)
 #ErrorHandling - Display and error-number
         
-    
-        label_ev = QtGui.QLabel(self)
-        label_ev.setText('Insert the integer of the error you want to display')
-        grid.addWidget(label_ev,2,0,1,1)
-        
         label_ed = QtGui.QLabel(self)
         label_ed.setText('Here you see the amount of errors recorded in the Error-Testfile.txt')
-        grid.addWidget(label_ed,3,0,1,1)    
+        grid.addWidget(label_ed,2,0,1,1)        
+        label_ev = QtGui.QLabel(self)
+        label_ev.setText('Insert the integer of the error you want to display')
+        grid.addWidget(label_ev,1,0,1,1)
         
-        label_ep = QtGui.QLabel(self)
-        label_ep.setText('Here you see the current error .txt file path, can be chosen using the button')
-        grid.addWidget(label_ep,1,0,1,1,)        
         
-        OpenErrorPath = QtGui.QPushButton('Choose Error File', self)
-        OpenErrorPath.resize(OpenErrorPath.sizeHint())    
-        OpenErrorPath.clicked.connect(self.OpenErrorFile)
-        grid.addWidget(OpenErrorPath, 1,2,1,1)
-        
-        global CurrentErrorFilePath
-        CurrentErrorFilePath = QtGui.QLineEdit(self)
-        CurrentErrorFilePath.setReadOnly(True)
-        CurrentErrorFilePath.setText(Errorfile)
-        grid.addWidget(CurrentErrorFilePath,1,1,1,1)
-        
-        global errorvalue
-        errorvalue = QtGui.QLineEdit(self)
-        errorvalue.resize(1,1)
-        grid.addWidget(errorvalue,2,1,1,1)
-        errorvalue.resize(1,1)
         
         global errordisplay
         errordisplay = QtGui.QLineEdit(self)
         errordisplay.setReadOnly(True)
         errordisplay.setText("recorded errors  =  " + str(recorded_errors))
-        grid.addWidget(errordisplay,3,1,1,1)
+        grid.addWidget(errordisplay,2,1,1,1)
+        
+        global errorvalue
+        errorvalue = QtGui.QLineEdit(self)
+        errorvalue.resize(1,1)
+        grid.addWidget(errorvalue,1,1,1,1)
+        errorvalue.resize(1,1)
     
         ploterror = QtGui.QPushButton('Plot chosen error in the window above', self)
         ploterror.resize(ploterror.sizeHint()) 
         ploterror.clicked.connect(self.Perror)
-        grid.addWidget(ploterror, 2,2,1,1)     
+        grid.addWidget(ploterror, 1,2,1,1)     
         
         UpdateError = QtGui.QPushButton('Update the display of recorded errors', self)
         UpdateError.resize(UpdateError.sizeHint()) 
         UpdateError.clicked.connect(self.Uerror)
-        grid.addWidget(UpdateError, 3,2,1,1)        
+        grid.addWidget(UpdateError, 2,2,1,1)        
 
-        self.errorplot = plt.figure()
+        self.errorplot = plt.figure()#figsize=(10,8))
         self.errorplot.patch.set_alpha(0)
         self.errorcanvas = FigureCanvas(self.errorplot)
         grid.addWidget(self.errorcanvas, 0,0,1,3)
@@ -415,6 +402,8 @@ class PrettyWidget(QtGui.QTabWidget):
         my_spacer = QtGui.QSpacerItem(100, 1, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)        
         grid.addItem(my_spacer,0,3,1,1)
                 
+        
+        
         global errorinfo
         errorinfo = QtGui.QPlainTextEdit(self)
         grid.addWidget(errorinfo,0,4,1,2)
@@ -440,23 +429,9 @@ class PrettyWidget(QtGui.QTabWidget):
         Reset4.resize(Reset4.sizeHint()) 
         Reset4.clicked.connect(self.R4)
         grid.addWidget(Reset4, 2,5,1,1)
-    
-    def OpenErrorFile(self):
-        global Errorfilename; global Errorfile; global recorded_errors
-        Errorfilename = QtGui.QFileDialog.getOpenFileName(self,"Open Errorfile", "os.chdir(path)", "Text files (*.txt)");
-        Errorfile = Errorfilename.split("/")[-1]
-        CurrentErrorFilePath.clear()
-        CurrentErrorFilePath.setText(Errorfile)
-        last_line = subprocess.check_output(['tail', '-1', Errorfile])[0:-1].decode()
-        if os.stat(Errorfile).st_size == 0:
-            recorded_errors = 0
-        else:
-            c1,c2,c3=last_line.split(',')
-            recorded_errors = int(c3)    
-        errordisplay.clear()
-        errordisplay.setText("recorded errors  =  " + str(recorded_errors))
         
     def Perror(self):
+        
         plt.cla()
         xerror=[]
         yerror=[]
@@ -468,34 +443,25 @@ class PrettyWidget(QtGui.QTabWidget):
             errorinfo.clear()
             errorinfo.insertPlainText("Please insert an integer of the error you would like to display")
         else:
-            Errorfileny=CurrentErrorFilePath.text()
-            try:
-                
-                with open(Errorfileny,'r') as ff:
-                    for line in ff:
-                        line = line.rstrip()
-                        if line.endswith(","+errorwanted):
-                            errorinfo.insertPlainText(line)
-                            errorinfo.insertPlainText("\n")
-                            xe,ye,num=line.split(',')
-                            xerror.append(xe)
-                            yerror.append(ye)
-                    errorwindow=self.errorplot.add_subplot(111)
-                    errorwindow.set_title(str(xerror[0])+'    recorded: '+str(xerror[1])+', '+str(yerror[1]),fontweight="bold", size=32) # Title
-                    errorwindow.set_ylabel(yerror[0], fontsize = 30) # Y label
-                    errorwindow.set_xlabel('real time', fontsize = 30) # X label
-                    xerror.pop(0)
-                    xerror.pop(0)
-                    yerror.pop(0)
-                    yerror.pop(0)
-                    errorwindow.plot(xerror,yerror,'ro-')
-                    self.errorcanvas.draw()
-            except:
-                errorinfo.insertPlainText("\n\n Error is either\n")
-                errorinfo.insertPlainText("1) Please choose the .txt file hosting the errors")
-                errorinfo.insertPlainText("\n\n 2) You have chosen an error number larger than amount of errors recorded")
-                errorinfo.insertPlainText("\n\n 3) You could have chosen a wrong .txt file")
-                
+            with open('Error-Testfile.txt','r') as ff:
+                for line in ff:
+                    line = line.rstrip()
+                    if line.endswith(","+errorwanted):
+                        errorinfo.insertPlainText(line)
+                        errorinfo.insertPlainText("\n")
+                        xe,ye,num=line.split(',')
+                        xerror.append(xe)
+                        yerror.append(ye)
+            errorwindow=self.errorplot.add_subplot(111)
+            errorwindow.set_title(str(xerror[0])+'    recorded: '+str(xerror[1])+', '+str(yerror[1]),fontweight="bold", size=32) # Title
+            errorwindow.set_ylabel(yerror[0], fontsize = 30) # Y label
+            errorwindow.set_xlabel('real time', fontsize = 30) # X label
+            xerror.pop(0)
+            xerror.pop(0)
+            yerror.pop(0)
+            yerror.pop(0)
+            errorwindow.plot(xerror,yerror,'ro-')
+            self.errorcanvas.draw()
                     
     def Uerror(self):
         errordisplay.clear()
@@ -577,23 +543,8 @@ class PrettyWidget(QtGui.QTabWidget):
         
 def main():
     app = QtGui.QApplication(sys.argv)
-    QtGui.QMessageBox.information(None, "Information", "Choose the Error File!")
-    global Errorfile
-    Errorfilename = QtGui.QFileDialog.getOpenFileName(None,"CHOOSE ERROR FILE!", "os.chdir(path)", "Text files (*.txt)");
-    Errorfile = Errorfilename.split("/")[-1]
-    global recorded_errors
-    last_line1 = subprocess.check_output(['tail', '-1', Errorfile])[0:-1].decode()
-    if os.stat(Errorfile).st_size == 0:
-        recorded_errors = 0
-        print('empty')
-    else:
-        c1,c2,c3=last_line1.split(',')
-        recorded_errors = int(c3)    
-        print('not empty?')
-    
-    
     w = PrettyWidget()
-    animate1(1); animate2(1); animate3(1); animate4(1);
+    animate1(1); animate2(1); animate3(1); animate4(1)
     ani1 = animation.FuncAnimation(f1, animate1, interval=2000)
     ani2 = animation.FuncAnimation(f2, animate2, interval=2000)
     ani3 = animation.FuncAnimation(f3, animate3, interval=2000)
