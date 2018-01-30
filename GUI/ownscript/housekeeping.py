@@ -88,31 +88,33 @@ def animate1(i):
     ax1.set_title('Temperature of Batteri?',fontweight="bold", size=20) # Title
     ax1.set_ylabel('Temperature(celcius)', fontsize = 20.0) # Y label
     ax1.set_xlabel('real time', fontsize = 20) # X label
-    
-    global Last_value1
-    Last_value1=float(ys1[-1])
     global size_of_1
-    if float(Last_value1) > 12.00 and len(xs1) > size_of_1:
-        size_of_1=len(xs1)
-        global recorded_errors
-        recorded_errors += 1
-        f1.patch.set_alpha(1)
-        f1.set_facecolor('r')
-        Errordata = open('Error-Testfile.txt','a')
-        Errordata.write("%s,%s,%s\n" % ("Test-File1","Y-unit!",str(recorded_errors)))
-        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
-        Errordata.close()
-        global xerror1; global yerror1
-        #xerror1=float(xs1[-1]); yerror1=float(ys1[-1])
-        for j in range(errorinterval):
-            Errordata = open('Error-Testfile.txt','a')
-            try:
-                xerror1=float(xs1[-errorinterval+(j)])
-                yerror1=float(ys1[-errorinterval+(j)])
-                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror1,yerror1,str(recorded_errors)))
+    if len(xs1) > size_of_1:
+        newpoints=len(xs1)-size_of_1
+        for k in range(newpoints):
+            global Last_value1
+            Last_value1=float(ys1[len(ys1)-newpoints+k])
+            if float(Last_value1) > 12.00:
+                size_of_1=len(xs1)
+                global recorded_errors
+                recorded_errors += 1
+                f1.patch.set_alpha(1)
+                f1.set_facecolor('r')
+                Errordata = open('Error-Testfile.txt','a')
+                Errordata.write("%s,%s,%s\n" % ("Test-File1","Y-unit!",str(recorded_errors)))
+                Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
-            except:
-                ""
+                global xerror1; global yerror1
+                #xerror1=float(xs1[-1]); yerror1=float(ys1[-1])
+                for j in range(errorinterval):
+                    Errordata = open('Error-Testfile.txt','a')
+                    try:
+                        xerror1=float(xs1[-errorinterval+(j)])
+                        yerror1=float(ys1[-errorinterval+(j)])
+                        Errordata.write("%5.2f,%5.2f,%s\n" % (xerror1,yerror1,str(recorded_errors)))
+                        Errordata.close()
+                    except:
+                        ""
 
 
 f2 = plt.figure(figsize=(1,2))
@@ -136,30 +138,33 @@ def animate2(i):
     ax2.clear()
     ax2.plot(xs2,ys2,'mo-')
     
-    global Last_value2
-    Last_value2=float(ys2[-1])
     global size_of_2
-    if float(Last_value2) > 12.00 and len(xs2) > size_of_2:
-        size_of_2=len(xs2)
-        global recorded_errors
-        recorded_errors += 1
-        f2.patch.set_alpha(1)
-        f2.set_facecolor('r')
-        Errordata = open('Error-Testfile.txt','a')
-        Errordata.write("%s,%s,%s\n" % ("Test-File2","Y-unit!",str(recorded_errors)))
-        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
-        Errordata.close()
-        global xerror2; global yerror2
-        #xerror2=float(xs2[-1]); yerror2=float(ys2[-1])
-        for j in range(errorinterval):
-            Errordata = open('Error-Testfile.txt','a')
-            try:
-                xerror2=float(xs2[-errorinterval+(j)])
-                yerror2=float(ys2[-errorinterval+(j)])
-                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror2,yerror2,str(recorded_errors)))
+    if len(xs2) > size_of_2:
+        newpoints=len(xs2)-size_of_2
+        for k in range(newpoints):
+            global Last_value2
+            Last_value2=float(ys2[len(ys2)-newpoints+k])
+            if float(Last_value2) > 12.00:
+                size_of_2=len(xs2)
+                global recorded_errors
+                recorded_errors += 1
+                f2.patch.set_alpha(1)
+                f2.set_facecolor('r')
+                Errordata = open('Error-Testfile.txt','a')
+                Errordata.write("%s,%s,%s\n" % ("Test-File2","Y-unit!",str(recorded_errors)))
+                Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
-            except:
-                ""
+                global xerror2; global yerror2
+                #xerror2=float(xs2[-1]); yerror2=float(ys2[-1])
+                for j in range(errorinterval):
+                    Errordata = open('Error-Testfile.txt','a')
+                    try:
+                        xerror2=float(xs2[-errorinterval+(j)])
+                        yerror2=float(ys2[-errorinterval+(j)])
+                        Errordata.write("%5.2f,%5.2f,%s\n" % (xerror2,yerror2,str(recorded_errors)))
+                        Errordata.close()
+                    except:
+                        ""
 
     
 f3 = plt.figure(figsize=(1,2))
@@ -183,30 +188,33 @@ def animate3(i):
     ax3.clear()
     ax3.plot(xs3,ys3,'ko-')
     
-    global Last_value3
-    Last_value3=float(ys3[-1])
     global size_of_3
-    if float(Last_value3) > 12.00 and len(xs3) > size_of_3:
-        size_of_3=len(xs3)
-        global recorded_errors
-        recorded_errors += 1
-        f3.patch.set_alpha(1)
-        f3.set_facecolor('r')
-        Errordata = open('Error-Testfile.txt','a')
-        Errordata.write("%s,%s,%s\n" % ("Test-File3","Y-unit!",str(recorded_errors)))
-        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
-        Errordata.close()
-        global xerror3; global yerror3
-        #xerror3=float(xs3[-1]); yerror3=float(ys3[-1])
-        for j in range(errorinterval):
-            Errordata = open('Error-Testfile.txt','a')
-            try:
-                xerror3=float(xs3[-errorinterval+(j)])
-                yerror3=float(ys3[-errorinterval+(j)])
-                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror3,yerror3,str(recorded_errors)))
+    if len(xs3) > size_of_3:
+        newpoints=len(xs3)-size_of_3
+        for k in range(newpoints):
+            global Last_value3
+            Last_value3=float(ys3[len(ys3)-newpoints+k])
+            if float(Last_value3) > 12.00:
+                size_of_3=len(xs3)
+                global recorded_errors
+                recorded_errors += 1
+                f3.patch.set_alpha(1)
+                f3.set_facecolor('r')
+                Errordata = open('Error-Testfile.txt','a')
+                Errordata.write("%s,%s,%s\n" % ("Test-File3","Y-unit!",str(recorded_errors)))
+                Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
-            except:
-                ""
+                global xerror3; global yerror3
+                #xerror3=float(xs3[-1]); yerror3=float(ys3[-1])
+                for j in range(errorinterval):
+                    Errordata = open('Error-Testfile.txt','a')
+                    try:
+                        xerror3=float(xs3[-errorinterval+(j)])
+                        yerror3=float(ys3[-errorinterval+(j)])
+                        Errordata.write("%5.2f,%5.2f,%s\n" % (xerror3,yerror3,str(recorded_errors)))
+                        Errordata.close()
+                    except:
+                        ""
 
 
 f4 = plt.figure(figsize=(1,2))
@@ -230,30 +238,33 @@ def animate4(i):
     ax4.clear()
     ax4.plot(xs4[-50:],ys4[-50:],'yo-')
     
-    global Last_value4
-    Last_value4=float(ys4[-1])
     global size_of_4
-    if float(Last_value4) > 12.00 and len(xs4) > size_of_4:
-        size_of_4=len(xs4)
-        global recorded_errors
-        recorded_errors += 1
-        f4.patch.set_alpha(1)
-        f4.set_facecolor('r')
-        Errordata = open('Error-Testfile.txt','a')
-        Errordata.write("%s,%s,%s\n" % ("Test-File4","Y-unit!",str(recorded_errors)))
-        Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
-        Errordata.close()
-        global xerror4; global yerror4
-        #xerror4=float(xs4[-1]); yerror4=float(ys4[-1])
-        for j in range(errorinterval):
-            Errordata = open('Error-Testfile.txt','a')
-            try:
-                xerror4=float(xs4[-errorinterval+(j)])
-                yerror4=float(ys4[-errorinterval+(j)])
-                Errordata.write("%5.2f,%5.2f,%s\n" % (xerror4,yerror4,str(recorded_errors)))
+    if len(xs4) > size_of_4:
+        newpoints=len(xs4)-size_of_4
+        for k in range(newpoints):
+            global Last_value4
+            Last_value4=float(ys4[len(ys4)-newpoints+k])
+            if float(Last_value4) > 12.00:
+                size_of_4=len(xs4)
+                global recorded_errors
+                recorded_errors += 1
+                f4.patch.set_alpha(1)
+                f4.set_facecolor('r')
+                Errordata = open('Error-Testfile.txt','a')
+                Errordata.write("%s,%s,%s\n" % ("Test-File4","Y-unit!",str(recorded_errors)))
+                Errordata.write("%s,%s,%s\n" % (datetime.datetime.now().strftime("%I:%M%p on %B %d"),datetime.datetime.now().strftime("%Y"),str(recorded_errors)))
                 Errordata.close()
-            except:
-                ""
+                global xerror4; global yerror4
+                #xerror4=float(xs4[-1]); yerror4=float(ys4[-1])
+                for j in range(errorinterval):
+                    Errordata = open('Error-Testfile.txt','a')
+                    try:
+                        xerror4=float(xs4[-errorinterval+(j)])
+                        yerror4=float(ys4[-errorinterval+(j)])
+                        Errordata.write("%5.2f,%5.2f,%s\n" % (xerror4,yerror4,str(recorded_errors)))
+                        Errordata.close()
+                    except:
+                        ""
 
     
     
