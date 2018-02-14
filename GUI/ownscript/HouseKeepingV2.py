@@ -507,7 +507,7 @@ class PrettyWidget(QtGui.QTabWidget):
         mainwindow.plot(xs4[-200:],ys4[-200:],'yo-')
         
         timeofday=datetime.datetime.now().strftime("%I:%M%p on %B %d, %Y")    
-        mainwindow.set_title('More?... plottet:     '+timeofday,fontweight="bold", size=20) # Title
+        mainwindow.set_title('HK-DATA4. plottet:     '+timeofday,fontweight="bold", size=20) # Title
         mainwindow.set_ylabel('Random?', fontsize = 20.0) # Y label
         mainwindow.set_xlabel('Maybe real time?', fontsize = 20) # X label
         self.canvas.draw()   
